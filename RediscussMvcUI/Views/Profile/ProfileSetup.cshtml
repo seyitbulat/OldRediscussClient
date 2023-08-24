@@ -1,0 +1,223 @@
+﻿@{
+    Layout = "_Layout";
+}
+
+@section customStyles {
+    <link rel="stylesheet" href="~/assets/vendor/font-awesome-line-awesome/css/all.min.css">
+    <link rel="stylesheet" href="~/assets/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css">
+   
+
+    <style id="smooth-scrollbar-style">
+        [data-scrollbar] {
+            display: block;
+            position: relative;
+        }
+
+        .scroll-content {
+            -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+        }
+
+        .scrollbar-track {
+            position: absolute;
+            opacity: 0;
+            z-index: 1;
+            background: rgba(222, 222, 222, .75);
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-transition: opacity 0.5s 0.5s ease-out;
+            transition: opacity 0.5s 0.5s ease-out;
+        }
+
+            .scrollbar-track.show,
+            .scrollbar-track:hover {
+                opacity: 1;
+                -webkit-transition-delay: 0s;
+                transition-delay: 0s;
+            }
+
+        .scrollbar-track-x {
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 8px;
+        }
+
+        .scrollbar-track-y {
+            top: 0;
+            right: 0;
+            width: 8px;
+            height: 100%;
+        }
+
+        .scrollbar-thumb {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            background: rgba(0, 0, 0, .5);
+            border-radius: 4px;
+        }
+    </style>
+}
+
+@section customScripts{
+    <script>
+        $(document).ready(function () {
+            $("#btnSave").click(function () {
+                var file = $("#fuUserImage").get(0).files[0];
+
+                var formData = new FormData();
+
+                formData.append("file", file);
+                formData.append("firstName", $("#txtFirstName").val());
+                formData.append("lastName", $("#txtLastName").val());
+                formData.append("gender", $("#genderSelect").val());
+                formData.append("country", $("#txtCountry").val());
+
+                $.ajax({
+                    url: "/Profile/ProfileSetup",
+                    method: "post",
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function(response){
+                        if(response.isSuccess){
+                            window.location.href = "/Home/Index";
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card position-relative inner-page-bg bg-primary" style="height: 150px;">
+            <div class="inner-page-title">
+                <h3 class="text-white">Profile Setup Wizard</h3>
+                <p class="text-white">You can initialize you profile</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">Simple Wizard</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <form id="form-wizard1" class="text-center mt-3">
+                    <ul id="top-tab-list" class="p-0 row list-inline">
+                        <li id="personal" class="col-lg-3 col-md-6 mb-2 active text-start">
+                            <a href="javascript:void();">
+                                <i class="ri-user-fill"></i><span>Personal</span>
+                            </a>
+                        </li>
+                        <li id="payment" class="col-lg-3 col-md-6 mb-2 text-start">
+                            <a href="javascript:void();">
+                                <i class="ri-camera-fill"></i><span>Image</span>
+                            </a>
+                        </li>
+                        <li id="confirm" class="col-lg-3 col-md-6 mb-2 text-start">
+                            <a href="javascript:void();">
+                                <i class="ri-check-fill"></i><span>Finish</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- fieldsets -->
+                    <fieldset>
+
+                        <div class="form-card text-start">
+                            <div class="row">
+                                <div class="col-7">
+                                    <h3 class="mb-4">Personal Information:</h3>
+                                </div>
+                                <div class="col-5">
+                                    <h2 class="steps">Step 2 - 4</h2>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">First Name: *</label>
+                                        <input id ="txtFirstName" type="text" class="form-control" name="fname" placeholder="First Name" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Last Name: *</label>
+                                        <input id="txtLastName" type="text" class="form-control" name="lname" placeholder="Last Name" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Gender</label>
+                                        <select id="genderSelect" class="form-select">
+                                            <option selected disabled>Select your gender</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Male">Male</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Country</label>
+                                        <input id="txtCountry" type="text" class="form-control" name="phno_2" placeholder="Country" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" name="next" class="btn btn-primary next action-button float-end" value="Next">Next</button>
+                        <button type="button" name="previous" class="btn btn-dark previous action-button-previous float-end me-3" value="Previous">Previous</button>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-card text-start">
+                            <div class="row">
+                                <div class="col-7">
+                                    <h3 class="mb-4">Image Upload:</h3>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Upload Your Photo:</label>
+                                <input id="fuUserImage" type="file" class="form-control" name="pic" accept="image/*">
+                            </div>
+                        </div>
+                        <button id="btnSave" type="button" name="next" class="btn btn-primary next action-button float-end" value="Submit">Submit</button>
+                        <button type="button" name="previous" class="btn btn-dark previous action-button-previous float-end me-3" value="Previous">Previous</button>
+                    </fieldset>
+                    <fieldset>
+                        <div class="form-card">
+                            <div class="row">
+                                <div class="col-7">
+                                    <h3 class="mb-4 text-left">Finish:</h3>
+                                </div>
+                                <div class="col-5">
+                                    <h2 class="steps">Step 4 - 4</h2>
+                                </div>
+                            </div>
+                            <br><br>
+                            <h2 class="text-success text-center"><strong>SUCCESS !</strong></h2>
+                            <br>
+                            <div class="row justify-content-center">
+                                <div class="col-3"> <img src="../assets/images/page-img/img-success.png" class="img-fluid" alt="fit-image"> </div>
+                            </div>
+                            <br><br>
+                            <div class="row justify-content-center">
+                                <div class="col-7 text-center">
+                                    <h5 class="purple-text text-center">You Have Successfully Profile Set Up</h5>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

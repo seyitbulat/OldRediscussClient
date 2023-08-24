@@ -1,0 +1,215 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "_Layout";
+}
+@model UserItem
+
+@section customScripts{
+    <script>
+        $(document).ready(function(){
+            $("#btnSave").click(function(){
+                var file = $("#fuUserImage").get(0).files[0];
+
+                var formData = new FormData();
+                
+                var firstName = $("#txtFirstName").val();
+                var lastName = $("#txtLastName").val();
+                var country = $("#txtCountry").val();
+                var about = $("#txtAbout").val();
+                var gender = $("#genderSelect").val();
+                var birthDate = $("#txtBirthDate").val();
+
+                formData.append("firstName", firstName);
+                formData.append("lastName", lastName);
+                formData.append("country", country);
+                formData.append("about", about);
+                formData.append("gender", gender);
+                formData.append("birthDate", birthDate);
+                formData.append("file", file);
+
+                $.ajax({
+                    url: "/Profile/ProfileEdit",
+                    method: "post",
+                    datatype: "json",
+                    contentType: false,
+                    processData: false,
+                    data : formData,
+                    success: function(response){
+                        if(response.isSuccess){
+                            window.location.href = "/Profile/ProfileEdit";
+                        }else{
+                            alert(response.message);
+                        }
+                    }
+                })
+            });
+        });
+    </script>
+}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body p-0">
+                <div class="iq-edit-list">
+                    <ul class="iq-edit-profile row nav nav-pills">
+                        <li class="col-md-3 p-0">
+                            <a class="nav-link active" data-bs-toggle="pill" href="#personal-information">
+                                Personal Information
+                            </a>
+                        </li>
+                        <li class="col-md-3 p-0">
+                            <a class="nav-link" data-bs-toggle="pill" href="#chang-pwd">
+                                Change Password
+                            </a>
+                        </li>
+                        <li class="col-md-3 p-0">
+                            <a class="nav-link" data-bs-toggle="pill" href="#emailandsms">
+                                Email and SMS
+                            </a>
+                        </li>
+                        <li class="col-md-3 p-0">
+                            <a class="nav-link" data-bs-toggle="pill" href="#manage-contact">
+                                Manage Contact
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="iq-edit-list-data">
+            <div class="tab-content">
+                <div class="tab-pane fade active show" id="personal-information" role="tabpanel">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="header-title">
+                                <h4 class="card-title">Personal Information</h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="form-group row align-items-center">
+                                    <div class="col-md-12">
+                                        <div class="profile-img-edit">
+                                            @if (Model.UserImage != null)
+                                            {
+                                                <img src='@($"data:{Model.ImageContentType};base64,{Model.UserImage}")' alt="profile-img" class="avatar-130 img-fluid" />
+                                            }
+                                            else
+                                            {
+                                                <img src="~/tempFiles/noImage.png" alt="profile-img" class="avatar-130 img-fluid" />
+                                            }
+                                            <div class="p-image">
+                                                <i class="ri-pencil-line upload-button text-white"></i>
+                                                <input id="fuUserImage" class="file-upload" type="file" accept="image/*" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" row align-items-center">
+                                    <div class="form-group col-sm-6">
+                                        <label for="txtFirstName" class="form-label">First Name:</label>
+                                        @if(Model.FirstName != null)
+                                        {
+                                            <input type="text" class="form-control" id="txtFirstName" value="@Model.FirstName">
+                                        }
+                                        else
+                                        {
+                                        <input type="text" class="form-control" id="txtFirstName" placeholder="Enter a first name">
+                                            
+                                        }
+                                        
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="txtLastName" class="form-label">Last Name:</label>
+                                        @if(Model.LastName != null)
+                                        {
+                                            <input type="text" class="form-control" id="txtLastName" value="@Model.LastName">
+                                        }
+                                        else
+                                        {
+                                            <input type="text" class="form-control" id="txtLastName" placeholder="Enter a last name">
+                                        }
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="txtCountry" class="form-label">Country:</label>
+                                        @if(Model.Country != null)
+                                        {
+                                            <input type="text" class="form-control gend" id="txtCountry" value="@Model.Country">
+                                        }else
+                                        {
+                                            <input type="text" class="form-control" id="txtCountry" placeholder="Atlanta">
+                                        }
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label class="form-label d-block">Gender:</label>
+                                            <select id="genderSelect" class="form-select">
+                                                <option selected value="@Model.Gender">@Model.Gender</option>
+                                                @if(Model.Gender == "Male")
+                                                {
+                                                <option value="Female">Female</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="Male">Male</option>
+                                                }
+                                        </select>
+                                    </div>
+                                    <div class="form-group col-sm-6">
+                                        <label for="txtBirthDate" class="form-label">Date Of Birth:</label>
+                                        @if(Model.BirthDate != null)
+                                        {
+                                            <input id="txtBirthDate" type="date" class="form-control" id="txtBirthDate" value="@Model.BirthDate" pattern="\d{4}-\d{2}-\d{2}">
+                                        }else
+                                        {
+                                            <input id="txtBirthDate" type="date" class="form-control" id="txtBirthDate" placeholder="1984-01-24" pattern="\d{4}-\d{2}-\d{2}">
+                                        }
+                                    </div>
+                                    <div class="form-group col-sm-12">
+                                        <label for="txtAbout" class="form-label">About:</label>
+                                        <textarea id="txtAbout" class="form-control" name="address" rows="5" style="line-height: 22px;">
+                                               @Model.About
+                                         </textarea>
+                                    </div>
+                                </div>
+                                <button id="btnSave" type="button" class="btn btn-primary me-2">Save</button>
+                                <button type="reset" class="btn bg-soft-danger">Cancel</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="chang-pwd" role="tabpanel">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="iq-header-title">
+                                <h4 class="card-title">Change Password</h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="cpass" class="form-label">Current Password:</label>
+                                    <a href="#" class="float-end">Forgot Password</a>
+                                    <input type="Password" class="form-control" id="cpass" value="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="npass" class="form-label">New Password:</label>
+                                    <input type="Password" class="form-control" id="npass" value="">
+                                </div>
+                                <div class="form-group">
+                                    <label for="vpass" class="form-label">Verify Password:</label>
+                                    <input type="Password" class="form-control" id="vpass" value="">
+                                </div>
+                                <button type="submit" class="btn btn-primary me-2">Submit</button>
+                                <button type="reset" class="btn bg-soft-danger">Cancle</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,420 @@
+﻿@using RediscussMvcUI.Models.ViewModels;
+@{
+    Layout = "_Layout";
+    
+}
+@model HomeViewModel
+
+
+
+@section customScripts{
+
+    <script>
+       $(document).ready(function () {
+            $("#btnPost").click(function () {
+                var formData = new FormData();
+                var postTitle = $("#txtTitle").val();
+                var postBody = $("#txtBody").val();
+                var subredisId = $("#subredisSelect").val();
+
+                var files = $("#fuPostImage").get(0).files;
+
+                for(var i = 0; i < files.length; i++){
+                    formData.append("files", files[i]);
+                }
+
+                formData.append("postTitle", postTitle);
+                formData.append("postBody", postBody);
+                formData.append("subredisId", subredisId);
+
+                $.ajax({
+                    url: "/Post/NewPost",
+                    method: "post",
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function (response){
+                        if(response.isSuccess){
+
+                        }
+                    }
+                });
+
+            });
+
+            $(".joinSubredis").click(function () {
+                var subredisId = $(this).attr("subredisId");
+
+                $.ajax({
+                    url: "/Home/JoinSubredis/" + subredisId,
+                    method: "post",
+                    dataType: "json",
+                    success: function(response){
+                        if(response.isSuccess){
+                            
+
+                        }
+                        else{
+
+                        }
+                    }
+                });
+            });
+       });
+
+       
+    </script>
+}
+
+<div class="row">
+    <div id="main" class="col-lg-8 row m-0 p-0">
+        <div class="col-sm-12">
+            <div id="post-modal-data" class="card card-block card-stretch card-height">
+                <div class="card-header d-flex justify-content-between">
+                    <div class="header-title">
+                        <h4 class="card-title">Create Post</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="user-img">
+                            @if (Model.User.UserImage != null)
+                            {
+                                <img src='@($"data:{Model.User.ImageContentType};base64,{Model.User.UserImage}")' alt="profile-img" class="avatar-60 rounded-circle" />
+                            }
+                            else
+                            {
+                                <img src="~/tempFiles/noImage.png" alt="profile-img" class="avatar-60 rounded-circle" />
+                            }
+                        </div>
+                        <form class="post-text ms-3 w-100 " data-bs-toggle="modal" data-bs-target="#post-modal" action="javascript:void();">
+                            <input type="text" class="form-control rounded" placeholder="Write something here..." style="border:none;">
+                        </form>
+                    </div>
+                    <hr>
+                    <ul class=" post-opt-block d-flex list-inline m-0 p-0 flex-wrap">
+                        <li class="me-3 mb-md-0 mb-2">
+                            <a href="#" class="btn btn-soft-primary">
+                                <img src="../assets/images/small/07.png" alt="icon" class="img-fluid me-2"> Photo
+                            </a>
+                        </li>
+                        <li>
+                            <button class="btn btn-soft-primary">
+                                <div class="card-header-toolbar d-flex align-items-center">
+                                    <div class="dropdown">
+                                        <div class="dropdown-toggle" id="post-option" data-bs-toggle="dropdown">
+                                            <i class="ri-more-fill"></i>
+                                        </div>
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="post-option" style="">
+                                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#post-modal">Gif</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal fade" id="post-modal" tabindex="-1" aria-labelledby="post-modalLabel" aria-hidden="true">
+                    <div class="modal-dialog   modal-fullscreen-sm-down">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="post-modalLabel">Create Post</h5>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="ri-close-fill"></i></button>
+                            </div>
+                            <div class="modal-body">
+                                <form class="createPost">
+                                    <div class="d-flex align-items-center">
+                                        <div class="user-img">
+                                            @if (Model.User.UserImage != null)
+                                            {
+                                                <img src='@($"data:{Model.User.ImageContentType};base64,{Model.User.UserImage}")' alt="profile-img" class="avatar-60 rounded-circle" />
+                                            }
+                                            else
+                                            {
+                                                <img src="~/tempFiles/noImage.png" alt="profile-img" class="avatar-60 rounded-circle" />
+                                            }
+                                        </div>
+                                            <input type="text" id="txtTitle" class="form-control rounded" placeholder="Title" style="border:none;">
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <input type="text" id="txtBody" class="form-control rounded" placeholder="Write something here..." style="border:none;">
+                                    </div>
+                                    <hr>
+                                    <ul class="d-flex flex-wrap align-items-center list-inline m-0 p-0">
+                                        <li class="col-md-6 mb-3">
+                                            <div class="bg-soft-primary rounded p-2 pointer me-3">
+                                                <a href="#">
+
+                                                </a>
+                                                <input style="display: none;" multiple type="file" class=" " id="fuPostImage" />
+                                                <img src="~/assets/images/small/07.png" alt="icon" class="img-fluid"> <label class=" " for="fuPostImage">Photo/Video</label>
+                                                </div>
+                                        </li>
+                                        <li class="col-md-6 mb-3">
+                                            <div class="bg-soft-primary rounded p-2 pointer me-3"><a href="#"></a><img src="~/assets/images/small/12.png" alt="icon" class="img-fluid"> Gif</div>
+                                        </li>  
+                                    </ul>
+                                    <hr>
+                                    <div class="other-option">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div class="d-flex align-items-center">
+                                                <div class="user-img me-3">
+                                                    <img src="../assets/images/user/1.jpg" alt="userimg" class="avatar-60 rounded-circle img-fluid">
+                                                </div>
+                                                <h6>Choose a subreddis</h6>
+                                            </div>
+                                            <div class="card-post-toolbar">
+                                                    <select id ="subredisSelect" class="form-select m-0 p-0">
+                                                        <option  selected disabled>sdgsd</option>
+                                                        @foreach (var item in Model.JoinItems)
+                                                        {
+                                                            <option value="@item.SubredisId">@item.SubredisName</option>
+                                                        }
+                                                    </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button id="btnPost" type="button" class="btn btn-primary d-block w-100 mt-3">Post</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @foreach (var item in Model.PostItems)
+        {
+            <div class="col-sm-12">
+                <div class="card card-block card-stretch card-height">
+                    <div class="card-body">
+                        <div class="user-post-data">
+                            <div class="d-flex justify-content-between">
+                                <div class="me-3">
+                                    <img class="rounded-circle img-fluid" src="../assets/images/user/01.jpg" alt="">
+                                </div>
+                                <div class="w-100">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="">
+                                            <h5 class="mb-0 d-inline-block">@item.SubredisName</h5>
+                                            <span class="mb-0 d-inline-block">  by @item.PostedBy</span>
+                                        </div>
+                                        <div class="card-post-toolbar">
+                                            <div class="dropdown">
+                                                <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                                    <i class="ri-more-fill"></i>
+                                                </span>
+                                                <div class="dropdown-menu m-0 p-0">
+                                                    <a class="dropdown-item p-3" href="#">
+                                                        <div class="d-flex align-items-top">
+                                                            <div class="h4">
+                                                                <i class="ri-save-line"></i>
+                                                            </div>
+                                                            <div class="data ms-2">
+                                                                <h6>Save Post</h6>
+                                                                <p class="mb-0">Add this to your saved items</p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a class="dropdown-item p-3" href="#">
+                                                        <div class="d-flex align-items-top">
+                                                            <i class="ri-close-circle-line h4"></i>
+                                                            <div class="data ms-2">
+                                                                <h6>Hide Post</h6>
+                                                                <p class="mb-0">See fewer posts like this.</p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a class="dropdown-item p-3" href="#">
+                                                        <div class="d-flex align-items-top">
+                                                            <i class="ri-user-unfollow-line h4"></i>
+                                                            <div class="data ms-2">
+                                                                <h6>Unfollow User</h6>
+                                                                <p class="mb-0">Stop seeing posts but stay friends.</p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <a class="dropdown-item p-3" href="#">
+                                                        <div class="d-flex align-items-top">
+                                                            <i class="ri-notification-line h4"></i>
+                                                            <div class="data ms-2">
+                                                                <h6>Notifications</h6>
+                                                                <p class="mb-0">Turn on notifications for this post</p>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <h3>@item.PostTitle</h3>
+                            <p>@item.PostBody</p>
+                        </div>
+                        @{
+                            var images = Model.PostImageItems;
+                            var wh = images.Where(e => e.PostId == item.PostId).ToList();
+                        }
+                        @if(wh == null || wh.Count == 0)
+                        {
+                            
+                        }
+                        else
+                        {
+                            <div class="user-post">
+                                @if (Model.PostImageItems.Where(e => e.PostId == item.PostId).Count() > 1)
+                                {
+                                    <div class=" d-grid grid-rows-2 grid-flow-col gap-3">
+                                        <div class="row-span-2 row-span-md-1">
+                                            <img src="../assets/images/page-img/p2.jpg" alt="post-image" class="img-fluid rounded w-100">
+                                        </div>
+                                        <div class="row-span-1">
+                                            <img src="../assets/images/page-img/p1.jpg" alt="post-image" class="img-fluid rounded w-100">
+                                        </div>
+                                        <div class="row-span-1 ">
+                                            <img src="../assets/images/page-img/p3.jpg" alt="post-image" class="img-fluid rounded w-100">
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <img src='@($"data:{Model.PostImageItems.Where(e => e.PostId == item.PostId).Select(e => e.ContentType).FirstOrDefault()};base64,{Model.PostImageItems.Where(e => e.PostId == item.PostId).Select(e => e.PostPicture).FirstOrDefault()}")' class="img-fluid rounded w-100">
+
+                                }
+                            </div>
+                        }
+                        <div class="comment-area mt-3">
+                            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                                <div class="like-block position-relative d-flex align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <div class="like-data">
+                                            <div class="dropdown">
+                                                <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                                    <img src="../assets/images/icon/01.png" class="img-fluid" alt="">
+                                                </span>
+                                                <div class="dropdown-menu py-2">
+                                                    <a class="ms-2 me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Like"><img src="../assets/images/icon/01.png" class="img-fluid" alt=""></a>
+                                                    <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Love"><img src="../assets/images/icon/02.png" class="img-fluid" alt=""></a>
+                                                    <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Happy"><img src="../assets/images/icon/03.png" class="img-fluid" alt=""></a>
+                                                    <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="HaHa"><img src="../assets/images/icon/04.png" class="img-fluid" alt=""></a>
+                                                    <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Think"><img src="../assets/images/icon/05.png" class="img-fluid" alt=""></a>
+                                                    <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Sade"><img src="../assets/images/icon/06.png" class="img-fluid" alt=""></a>
+                                                    <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Lovely"><img src="../assets/images/icon/07.png" class="img-fluid" alt=""></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="total-like-block ms-2 me-3">
+                                            <div class="dropdown">
+                                                <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                                    140 Likes
+                                                </span>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="#">Max Emum</a>
+                                                    <a class="dropdown-item" href="#">Bill Yerds</a>
+                                                    <a class="dropdown-item" href="#">Hap E. Birthday</a>
+                                                    <a class="dropdown-item" href="#">Tara Misu</a>
+                                                    <a class="dropdown-item" href="#">Midge Itz</a>
+                                                    <a class="dropdown-item" href="#">Sal Vidge</a>
+                                                    <a class="dropdown-item" href="#">Other</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="total-comment-block">
+                                        <div class="dropdown">
+                                            <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                                20 Comment
+                                            </span>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="#">Max Emum</a>
+                                                <a class="dropdown-item" href="#">Bill Yerds</a>
+                                                <a class="dropdown-item" href="#">Hap E. Birthday</a>
+                                                <a class="dropdown-item" href="#">Tara Misu</a>
+                                                <a class="dropdown-item" href="#">Midge Itz</a>
+                                                <a class="dropdown-item" href="#">Sal Vidge</a>
+                                                <a class="dropdown-item" href="#">Other</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="share-block d-flex align-items-center feather-icon mt-2 mt-md-0">
+                                    <a href="javascript:void();" data-bs-toggle="offcanvas" data-bs-target="#share-btn" aria-controls="share-btn">
+                                        <i class="ri-share-line"></i>
+                                        <span class="ms-1">99 Share</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <hr>
+                            <ul class="post-comments list-inline p-0 m-0">
+                                @foreach(var comment in Model.CommentItems.Where(e => e.PostId == item.PostId).ToList())
+                                {
+                                    <li>
+                                        <div class="d-flex">
+                                            <div class="user-img">
+                                                <img src='@($"data:{comment.ContentType};base64,{comment.UserImage}")' alt="userimg" class="avatar-35 rounded-circle img-fluid">
+                                            </div>
+                                            <div class="comment-data-block ms-3">
+                                                <h6>@comment.CreatedByName</h6>
+                                                <p class="mb-0">@comment.CommentBody</p>
+                                                <div class="d-flex flex-wrap align-items-center comment-activity">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                                
+                            </ul>
+                            <form class="comment-text d-flex align-items-center mt-3" action="javascript:void(0);">
+                                <input type="text" class="form-control rounded" placeholder="Enter Your Comment">
+                                <div class="comment-attagement d-flex">
+                                    <a href="javascript:void();"><i class="ri-link me-3"></i></a>
+                                    <a href="javascript:void();"><i class="ri-user-smile-line me-3"></i></a>
+                                    <a href="javascript:void();"><i class="ri-camera-line me-3"></i></a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between">
+                <div class="header-title">
+                    <h4 class="card-title">Suggested Subredis</h4>
+                </div>
+                <div class="card-header-toolbar d-flex align-items-center">
+                </div>
+            </div>
+            <div class="card-body">
+                <ul class="suggested-page-story m-0 p-0 list-inline">
+                    @{
+                        int a = 0;
+                    }
+                    @foreach(var sugg in Model.Suggestions)
+                    {
+                        if (a == 5) break;
+                        <li class="mb-3">
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="../assets/images/page-img/42.png" alt="story-img" class="rounded-circle img-fluid avatar-50">
+                                <div class="stories-data ms-3">
+                                    <h5>@sugg.SubredisName</h5>
+                                    <p class="mb-0">@sugg.SubredisDescription.Substring(0, 15)...</p>
+                                </div>
+                            </div>
+                            <div class="mt-3"><a subredisId="@sugg.SubredisId" href="#" class="btn d-block joinSubredis"><i class="ri-thumb-up-line me-2"></i> Join Subredis</a></div>
+                        </li>
+
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 text-center">
+        <img src="../assets/images/page-img/page-load-loader.gif" alt="loader" style="height: 100px;">
+    </div>
+</div>    
