@@ -33,6 +33,11 @@ namespace RediscussMvcUI
 				name: "default",
 				pattern: "{controller=Authentication}/{action=Login}/{id?}");
 
+			app.MapAreaControllerRoute(
+				name: "Admin",
+				areaName: "Admin",
+				pattern: "{area:exists}/{controller=Authentication}/{action=Login}/{id?}");
+
 			app.Run();
 		}
 	}

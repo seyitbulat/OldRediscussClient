@@ -28,6 +28,14 @@
                 return string.Empty ;
             }
         }
+
+        public string? FullName
+        {
+            get
+            {
+                return $"{FirstName} {LastName}";
+            }
+        }
         public string Token { get; set; }
     }
 }

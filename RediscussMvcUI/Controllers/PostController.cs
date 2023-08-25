@@ -49,7 +49,7 @@ namespace RediscussMvcUI.Controllers
 
             var imageResponse = await _httpApiService.PostData<ResponseBody<PostImageItem>>($"PostImages?PostId={postResponse.Data.PostId}", content, user.Token);
 
-            if (imageResponse.StatusCode.ToString().StartsWith("20"))
+            if (postResponse.StatusCode.ToString().StartsWith("20"))
             {
                 return Json(new { IsSuccess = true, Message = "Post successful" });
             }

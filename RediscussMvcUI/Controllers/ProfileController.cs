@@ -56,6 +56,43 @@ namespace RediscussMvcUI.Controllers
             return View(vm);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Profile(int id)
+        {
+            var sessionUser = HttpContext.Session.GetObject<UserItem>("ActiveUser");
+
+            var userResponse = await _httpApiService.GetData<ResponseBody<UserItem>>($"/Users/{id}", sessionUser.Token);
+            var joinResponse = await _httpApiService.GetData<ResponseBody<List<JoinItem>>>($"/Joins/getByUserId?userId={id}", sessionUser.Token);
+
+            var postResponse = await _httpApiService.GetData<ResponseBody<List<PostItem>>>($"/Posts/getByUser?userId={id}", sessionUser.Token);
+
+            ResponseBody<List<PostImageItem>> images = new ResponseBody<List<PostImageItem>>()
+            {
+                Data = new List<PostImageItem>(),
+                ErrorMessages = new List<string>(),
+                StatusCode = 0
+            };
+
+
+            foreach (var post in postResponse.Data)
+            {
+                var image = await _httpApiService.GetData<ResponseBody<List<PostImageItem>>>($"/PostImages/getByPostId/{post.PostId}", sessionUser.Token);
+
+                if (image.Data.Count != 0 || image.Data != null)
+                    images.Data.AddRange(image.Data);
+
+            }
+
+            ProfileViewModel vm = new()
+            {
+                UserItem = userResponse.Data,
+                JoinItems = joinResponse.Data,
+                PostItems = postResponse.Data,
+                PostImageItems = images.Data
+            };
+            return View(vm);
+        }
+
         public async Task<IActionResult> ProfileSetup()
         {
             var sessionUser = HttpContext.Session.GetObject<UserItem>("ActiveUser");

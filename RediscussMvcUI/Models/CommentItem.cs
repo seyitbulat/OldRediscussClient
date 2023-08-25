@@ -16,7 +16,7 @@
         {
             get
             {
-                if(ImageRoute.Contains(".") || ImageRoute != null)
+                if(ImageRoute != null)
                 {
                     return $"image/{Path.GetExtension(ImageRoute)}";
                 }

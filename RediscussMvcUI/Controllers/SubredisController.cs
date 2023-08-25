@@ -24,7 +24,8 @@ namespace RediscussMvcUI.Controllers
 			var subredisResponse = await _httpApiService.GetData<ResponseBody<SubredisItem>>($"/Subredises/{id}", token: user.Token) ;
 			var joinResponse = await _httpApiService.GetData<ResponseBody<List<JoinItem>>>($"/Joins/getBySubredisId?subredisId={id}", token: user.Token);
 			var postResponse = await _httpApiService.GetData<ResponseBody<List<PostItem>>>($"/Posts/getBySubredis?subredisId={id}", token: user.Token);
-
+            var joinsResponse = await _httpApiService.GetData<ResponseBody<List<JoinItem>>>($"/Joins/getByUserId?userId={user.UserId}", user.Token);
+			var userResponse = await _httpApiService.GetData<ResponseBody<UserItem>>($"/Users/{user.UserId}", user.Token);
             ResponseBody<List<PostImageItem>> images = new ResponseBody<List<PostImageItem>>()
             {
                 Data = new List<PostImageItem>(),
@@ -47,7 +48,9 @@ namespace RediscussMvcUI.Controllers
 				Count = joinResponse.Data.Count(),
 				SubredisItem = subredisResponse.Data,
 				PostItems = postResponse.Data,
-				PostImageItems = images.Data
+				PostImageItems = images.Data,
+				JoinItems = joinResponse.Data,
+				UserItem = userResponse.Data
 			};
 
 			return View(md);

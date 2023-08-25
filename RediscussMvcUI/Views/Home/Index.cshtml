@@ -8,7 +8,164 @@
 
 
 @section customScripts{
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script id="postTemplate" type="text/template">
+        <div class="col-sm-12">
+               <div class="card card-block card-stretch card-height">
+                   <div class="card-body">
+                       <div class="user-post-data">
+                           <div class="d-flex justify-content-between">
+                               <div class="me-3">
+                                   <img class="rounded-circle img-fluid" src="../assets/images/user/01.jpg" alt="">
+                               </div>
+                               <div class="w-100">
+                                   <div class="d-flex justify-content-between">
+                                       <div class="">
+                                           <h5 class="mb-0 d-inline-block">{subredisName}</h5>
+                                           <span class="mb-0 d-inline-block">  by {userName}</span>
+                                       </div>
+                                       <div class="card-post-toolbar">
+                                           <div class="dropdown">
+                                               <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                                   <i class="ri-more-fill"></i>
+                                               </span>
+                                               <div class="dropdown-menu m-0 p-0">
+                                                   <a class="dropdown-item p-3" href="#">
+                                                       <div class="d-flex align-items-top">
+                                                           <div class="h4">
+                                                               <i class="ri-save-line"></i>
+                                                           </div>
+                                                           <div class="data ms-2">
+                                                               <h6>Save Post</h6>
+                                                               <p class="mb-0">Add this to your saved items</p>
+                                                           </div>
+                                                       </div>
+                                                   </a>
+                                                   <a class="dropdown-item p-3" href="#">
+                                                       <div class="d-flex align-items-top">
+                                                           <i class="ri-close-circle-line h4"></i>
+                                                           <div class="data ms-2">
+                                                               <h6>Hide Post</h6>
+                                                               <p class="mb-0">See fewer posts like this.</p>
+                                                           </div>
+                                                       </div>
+                                                   </a>
+                                                   <a class="dropdown-item p-3" href="#">
+                                                       <div class="d-flex align-items-top">
+                                                           <i class="ri-user-unfollow-line h4"></i>
+                                                           <div class="data ms-2">
+                                                               <h6>Unfollow User</h6>
+                                                               <p class="mb-0">Stop seeing posts but stay friends.</p>
+                                                           </div>
+                                                       </div>
+                                                   </a>
+                                                   <a class="dropdown-item p-3" href="#">
+                                                       <div class="d-flex align-items-top">
+                                                           <i class="ri-notification-line h4"></i>
+                                                           <div class="data ms-2">
+                                                               <h6>Notifications</h6>
+                                                               <p class="mb-0">Turn on notifications for this post</p>
+                                                           </div>
+                                                       </div>
+                                                   </a>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="mt-3">
+                           <h3>{postTitle}</h3>
+                           <p>{postBody}</p>
+                       </div>
 
+
+                           <div class="user-post">
+                                   <img src= class="img-fluid rounded w-100">
+                           </div>
+
+                       <div class="comment-area mt-3">
+                           <div class="d-flex justify-content-between align-items-center flex-wrap">
+                               <div class="like-block position-relative d-flex align-items-center">
+                                   <div class="d-flex align-items-center">
+                                       <div class="like-data">
+                                           <div class="dropdown">
+                                               <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                                   <img src="../assets/images/icon/01.png" class="img-fluid" alt="">
+                                               </span>
+                                               <div class="dropdown-menu py-2">
+                                                   <a class="ms-2 me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Like"><img src="../assets/images/icon/01.png" class="img-fluid" alt=""></a>
+                                                   <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Love"><img src="../assets/images/icon/02.png" class="img-fluid" alt=""></a>
+                                                   <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Happy"><img src="../assets/images/icon/03.png" class="img-fluid" alt=""></a>
+                                                   <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="HaHa"><img src="../assets/images/icon/04.png" class="img-fluid" alt=""></a>
+                                                   <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Think"><img src="../assets/images/icon/05.png" class="img-fluid" alt=""></a>
+                                                   <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Sade"><img src="../assets/images/icon/06.png" class="img-fluid" alt=""></a>
+                                                   <a class="me-2" href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Lovely"><img src="../assets/images/icon/07.png" class="img-fluid" alt=""></a>
+                                               </div>
+                                           </div>
+                                       </div>
+                                       <div class="total-like-block ms-2 me-3">
+                                           <div class="dropdown">
+                                               <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+
+                                               </span>
+                                               <div class="dropdown-menu">
+
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="total-comment-block">
+                                       <div class="dropdown">
+                                           <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+
+                                           </span>
+                                           <div class="dropdown-menu">
+
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                               <div class="share-block d-flex align-items-center feather-icon mt-2 mt-md-0">
+                                   <a href="javascript:void();" data-bs-toggle="offcanvas" data-bs-target="#share-btn" aria-controls="share-btn">
+                                       <i class="ri-share-line"></i>
+                                       <span class="ms-1">99 Share</span>
+                                   </a>
+                               </div>
+                           </div>
+                           <hr>
+                           <ul class="post-comments list-inline p-0 m-0">
+
+                           </ul>
+                           <form class="comment-text d-flex align-items-center mt-3" action="javascript:void(0);">
+                               <input type="text" class="form-control rounded" placeholder="Enter Your Comment">
+                               <div class="comment-attagement d-flex">
+                                   <a href="javascript:void();"><i class="ri-link me-3"></i></a>
+                                   <a href="javascript:void();"><i class="ri-user-smile-line me-3"></i></a>
+                                   <a href="javascript:void();"><i class="ri-camera-line me-3"></i></a>
+                               </div>
+                           </form>
+                       </div>
+                   </div>
+               </div>
+           </div>
+    </script>
+    <script id="commentTemplate" type="text/template">
+        <li>
+                                        <div class="d-flex">
+                                            <div class="user-img">
+                                                <img src='' alt="userimg" class="avatar-35 rounded-circle img-fluid">
+                                            </div>
+                                            <div class="comment-data-block ms-3">
+                                                <h6></h6>
+                                                <p class="mb-0">{comment}</p>
+                                                <div class="d-flex flex-wrap align-items-center comment-activity">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+    </script> 
     <script>
        $(document).ready(function () {
             $("#btnPost").click(function () {
@@ -36,8 +193,26 @@
                     data: formData,
                     success: function (response){
                         if(response.isSuccess){
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Your post published',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                           $("#main").append($("#postTemplate").html());
+                            window.location.href = "/Home/Index";
 
-                        }
+                        }else{
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'warning',
+                                title: 'Your post not published',
+                                text: response.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        }  
                     }
                 });
 
@@ -52,11 +227,65 @@
                     dataType: "json",
                     success: function(response){
                         if(response.isSuccess){
-                            
-
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'success',
+                            title: 'You are succesfully joined',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                            window.locatio.href = "/Home/Index";
                         }
                         else{
+                        Swal.fire({
+                            position: 'top-end',
+                            icon: 'warning',
+                                title: 'You are not succesfully joined',
+                            text: response.message,
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        }
+                    }
+                });
+            });
 
+            $(".btnComment").click(function () {
+                var postId = $(this).attr("postId");
+                var formData = new FormData();
+                
+                var comment = $("#txtComment").val();
+                formData.append("commentBody", comment);
+                formData.append("postId", postId)
+
+               var userImage = $(".user-image").attr("src");
+
+                $.ajax({
+                    url: "/Home/SendComment",
+                    method: "post",
+                    dataType: "json",
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    success: function(response){
+                        if(response.isSuccess){
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'success',
+                                title: 'Your comment published',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            $(".post-comments").append($("#commentTemplate").html());
+                        }else{
+                            Swal.fire({
+                                position: 'top-end',
+                                icon: 'warning',
+                                title: 'Your post not published',
+                                text: response.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
                         }
                     }
                 });
@@ -65,6 +294,7 @@
 
        
     </script>
+
 }
 
 <div class="row">
@@ -176,6 +406,7 @@
                                         </div>
                                     </div>
                                     <button id="btnPost" type="button" class="btn btn-primary d-block w-100 mt-3">Post</button>
+                                    <button id="btnReset" type="reset" style="display:none;"></button>
                                 </form>
                             </div>
                         </div>
@@ -191,7 +422,10 @@
                         <div class="user-post-data">
                             <div class="d-flex justify-content-between">
                                 <div class="me-3">
-                                    <img class="rounded-circle img-fluid" src="../assets/images/user/01.jpg" alt="">
+                                    @if(item.PostedByImage != null)
+                                    {
+                                        <img class="rounded-circle avatar-60 img-fluid" src='@($"data:{item.PostedByContentType};base64,{item.PostedByImage}")' alt="">
+                                    }
                                 </div>
                                 <div class="w-100">
                                     <div class="d-flex justify-content-between">
@@ -326,7 +560,7 @@
                                     <div class="total-comment-block">
                                         <div class="dropdown">
                                             <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
-                                                20 Comment
+                                                @Model.CommentItems.Where(e => e.PostId == item.PostId).Count() Comment
                                             </span>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="#">Max Emum</a>
@@ -349,6 +583,7 @@
                             </div>
                             <hr>
                             <ul class="post-comments list-inline p-0 m-0">
+                              
                                 @foreach(var comment in Model.CommentItems.Where(e => e.PostId == item.PostId).ToList())
                                 {
                                     <li>
@@ -368,11 +603,10 @@
                                 
                             </ul>
                             <form class="comment-text d-flex align-items-center mt-3" action="javascript:void(0);">
-                                <input type="text" class="form-control rounded" placeholder="Enter Your Comment">
+                                <input id="txtComment" type="text" class="form-control rounded" placeholder="Enter Your Comment">
                                 <div class="comment-attagement d-flex">
-                                    <a href="javascript:void();"><i class="ri-link me-3"></i></a>
-                                    <a href="javascript:void();"><i class="ri-user-smile-line me-3"></i></a>
-                                    <a href="javascript:void();"><i class="ri-camera-line me-3"></i></a>
+                                    <button postId="@item.PostId" id="btnSend" type="button" class="btnComment">Send</button>
+                                    <button id="btnReset" style="display: none;" type="reset"></button>
                                 </div>
                             </form>
                         </div>

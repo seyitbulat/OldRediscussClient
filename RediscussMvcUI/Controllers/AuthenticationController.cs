@@ -30,7 +30,7 @@ namespace RediscussMvcUI.Controllers
 				UserName = dto.UserName,
 				Password = dto.Password
 			};
-			var response = await _httpApiService.PostData<ResponseBody<UserItem>>($"/Users/login", JsonSerializer.Serialize(postObject));
+			var response = await _httpApiService.PostData<ResponseBody<UserItem>>($"/Users/adminLogin", JsonSerializer.Serialize(postObject));
 
 			if(response.StatusCode == 200)
 			{

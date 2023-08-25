@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RediscussMvcUI.Extensions;
 using RediscussMvcUI.Filters;
 using RediscussMvcUI.Models;
+using RediscussMvcUI.Models.Dtos;
 using RediscussMvcUI.Models.Dtos.JoinDtos;
 using RediscussMvcUI.Models.ViewModels;
 using System.Diagnostics;
@@ -66,6 +67,7 @@ namespace RediscussMvcUI.Controllers
 
             return View(md);
         }
+        
 
         public IActionResult Privacy()
         {
@@ -87,6 +89,21 @@ namespace RediscussMvcUI.Controllers
             var joinResponse = await _httpApiService.PostData<JoinItem>("/Joins", JsonSerializer.Serialize(dto), userSession.Token);
 
             return Json(new {IsSuccess = true});
+        }
+
+        public async Task<IActionResult> SendComment(CommentSendDto dto)
+        {
+            var userSession = HttpContext.Session.GetObject<UserItem>("ActiveUser");
+            dto.CreatedBy = userSession.UserId;
+
+            var response = await _httpApiService.PostData<ResponseBody<CommentItem>>("/Comments", JsonSerializer.Serialize(dto), userSession.Token);
+
+            if(response.ErrorMessages == null)
+            {
+                return Json(new {IsSuccess = true, Message = "Succesfully commented"});
+            }
+            return Json(new { IsSuccess = false, Message = response.ErrorMessages });
+
         }
     }
 }

@@ -85,6 +85,8 @@
 	<script src="~/lib/jquery/dist/jquery.js"></script>
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<a href="~/lib/jquery/dist/jquery.min.map">~/lib/jquery/dist/jquery.min.map</a>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 	<script>
 		$(document).ready(function () {
 			$("#btnLogin").click(function () {
@@ -93,7 +95,19 @@
 					UserName : $("#txtUserName").val(),
 					Password : $("#txtPassword").val()
 				}
+				const Toast = Swal.mixin({
+					toast: true,
+					position: 'top-end',
+					showConfirmButton: false,
+					timer: 3000,
+					timerProgressBar: true,
+					didOpen: (toast) => {
+						toast.addEventListener('mouseenter', Swal.stopTimer)
+						toast.addEventListener('mouseleave', Swal.resumeTimer)
+					}
 
+
+				})
 				$.ajax({
 					url: "/Authentication/Login",
 					method: "post",
@@ -101,9 +115,20 @@
 					data : formDataObject,
 					success : function(response){
 						if(response.isSuccess){
+							
+
+							Toast.fire({
+								icon: 'success',
+								title: 'Signed in successfully'
+							})
+
 							window.location.href = "/Home/Index";
 						}else{
-							
+							Toast.fire({
+								icon: 'warning',
+								title: 'Login not succesful',
+								text: response.message
+							})
 						}
 					}
 				});

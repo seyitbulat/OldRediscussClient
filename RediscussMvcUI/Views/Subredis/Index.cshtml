@@ -9,7 +9,15 @@
         <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap">
             <div class="group-info d-flex align-items-center">
                 <div class="me-3">
-                    <img class="rounded-circle img-fluid avatar-100" src="~/assets/images/page-img/gi-1.jpg" alt="">
+                    @if(Model.SubredisItem.SubredisImage != null)
+                    {
+                        <img class="rounded-circle img-fluid avatar-100" src="~/assets/images/page-img/gi-1.jpg" alt="">
+
+                    }
+                    else
+                    {
+                        <img class="rounded-circle img-fluid avatar-100" src="~/tempFiles/noImage.png" alt="">
+                    }
                 </div>
                 <div class="info">
                     <h4>@Model.SubredisItem.SubredisName</h4>
@@ -28,7 +36,14 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div class="user-img">
-                        <img src="../assets/images/user/1.jpg" alt="userimg" class="avatar-60 rounded-circle">
+                        @if (Model.UserItem.UserImage != null)
+                        {
+                            <img src='@($"data:{Model.UserItem.ImageContentType};base64,{Model.UserItem.UserImage}")' alt="profile-img" class="avatar-60 rounded-circle" />
+                        }
+                        else
+                        {
+                            <img src="~/tempFiles/noImage.png" alt="profile-img" class="avatar-60 rounded-circle" />
+                        }
                     </div>
                     <form class="post-text ms-3 w-100 " data-bs-toggle="modal" data-bs-target="#post-modal" action="javascript:void();">
                         <input type="text" class="form-control rounded" placeholder="Write something here..." style="border:none;">
@@ -68,7 +83,14 @@
                             <form class="createPost">
                                 <div class="d-flex align-items-center">
                                     <div class="user-img">
-                                        <img src="../assets/images/user/1.jpg" alt="userimg" class="avatar-60 rounded-circle img-fluid">
+                                        @if (Model.UserItem.UserImage != null)
+                                        {
+                                            <img src='@($"data:{Model.UserItem.ImageContentType};base64,{Model.UserItem.UserImage}")' alt="profile-img" class="avatar-60 rounded-circle" />
+                                        }
+                                        else
+                                        {
+                                            <img src="~/tempFiles/noImage.png" alt="profile-img" class="avatar-60 rounded-circle" />
+                                        }
                                     </div>
                                     <input type="text" id="txtTitle" class="form-control rounded" placeholder="Title" style="border:none;">
                                 </div>
@@ -90,7 +112,26 @@
                                         <div class="bg-soft-primary rounded p-2 pointer me-3"><a href="#"></a><img src="~/assets/images/small/12.png" alt="icon" class="img-fluid"> Gif</div>
                                     </li>
                                 </ul>
-                                <hr> 
+                                <hr>
+                                <div class="other-option">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <div class="user-img me-3">
+                                                <img src="../assets/images/user/1.jpg" alt="userimg" class="avatar-60 rounded-circle img-fluid">
+                                            </div>
+                                            <h6>Choose a subreddis</h6>
+                                        </div>
+                                        <div class="card-post-toolbar">
+                                            <select id="subredisSelect" class="form-select m-0 p-0">
+                                                <option selected disabled>sdgsd</option>
+                                                @foreach (var item in Model.JoinItems)
+                                                {
+                                                    <option value="@item.SubredisId">@item.SubredisName</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                                 <button id="btnPost" type="button" class="btn btn-primary d-block w-100 mt-3">Post</button>
                             </form>
                         </div>
@@ -315,8 +356,6 @@
                         </div>
                         <br/>
                 }
-               
-
             </div>
         </div>
     </div>

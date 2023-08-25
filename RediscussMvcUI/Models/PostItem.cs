@@ -14,6 +14,7 @@
         public string SubredisName { get; set; }
         public string PostedByImage { get; set; }
         public string PostedBy { get; set; }
+		public string PostedByContentType { get; set; }
 
         public List<CommentItem> Comments { get; set; }
 	}
